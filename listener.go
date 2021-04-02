@@ -23,12 +23,12 @@ func NewListener(slave *Slave) *Listener {
 // Start starts the listener.
 func (l *Listener) Start() error {
 	for {
-		if !l.slave.connected {
+		if !l.slave.connected && !l.slave.waiting {
 			return nil
 		}
 		v := &url.Values{}
 		v.Set("id", l.slave.clientId)
-		req, err := http.NewRequest("POST", l.slave.front + "/events", strings.NewReader(v.Encode()))
+		req, err := http.NewRequest("POST", l.slave.front+"/events", strings.NewReader(v.Encode()))
 		if err != nil {
 			return err
 		}
