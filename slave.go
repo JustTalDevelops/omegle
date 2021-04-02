@@ -78,7 +78,7 @@ func (s *Slave) SendRequest(request requests.Request) error {
 	}
 	data := request.FormData()
 	data.Set("id", s.clientId)
-	req, err := http.NewRequest("POST", s.front + "/" + request.URL(), strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", s.front+"/"+request.URL(), strings.NewReader(data.Encode()))
 	if err != nil {
 		return err
 	}
@@ -108,13 +108,18 @@ func (s *Slave) SendRequest(request requests.Request) error {
 	return resp.Body.Close()
 }
 
+// Alive returns true if the connection is alive.
+func (s *Slave) Alive() bool {
+	return s.connected || s.waiting
+}
+
 // Start starts the slave on the current thread.
 func (s *Slave) Start() error {
 	front, err := s.frontManager.FindFront()
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("POST", front + "/start?caps=recaptcha2&firstevents=1&spid=&randid=" + s.randId + "&topics=" + serializeTopics(s.topics) + "&lang=en", nil)
+	req, err := http.NewRequest("POST", front+"/start?caps=recaptcha2&firstevents=1&spid=&randid="+s.randId+"&topics="+serializeTopics(s.topics)+"&lang=en", nil)
 	if err != nil {
 		return err
 	}
