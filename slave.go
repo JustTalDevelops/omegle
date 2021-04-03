@@ -95,7 +95,7 @@ func (s *Slave) SendRequest(request requests.Request) error {
 	req.Header.Set("Referer", "https://www.omegle.com/")
 	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := s.client.Do(req)
 	if err != nil {
 		return err
 	}
@@ -139,7 +139,7 @@ func (s *Slave) Start() error {
 	req.Header.Set("Referer", "https://www.omegle.com/")
 	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := s.client.Do(req)
 	if err != nil {
 		return err
 	}

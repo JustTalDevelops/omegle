@@ -43,7 +43,7 @@ func (l *Listener) Start() error {
 		req.Header.Set("Referer", "https://www.omegle.com/")
 		req.Header.Set("Accept-Language", "en-US,en;q=0.9")
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := l.slave.client.Do(req)
 		if err != nil {
 			return err
 		}
