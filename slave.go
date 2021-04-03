@@ -119,7 +119,11 @@ func (s *Slave) Start() error {
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("POST", front+"/start?caps=recaptcha2&firstevents=1&spid=&randid="+s.randId+"&topics="+serializeTopics(s.topics)+"&lang=en", nil)
+	var topics string
+	if len(s.topics) != 0 {
+		topics = "&topics=" + serializeTopics(s.topics)
+	}
+	req, err := http.NewRequest("POST", front+"/start?caps=recaptcha2&firstevents=1&spid=&randid="+s.randId+topics+"&lang=en", nil)
 	if err != nil {
 		return err
 	}
